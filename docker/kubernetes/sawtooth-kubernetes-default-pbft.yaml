@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+# using api version apps/v1 instead of extensions/v1beta1
 ---
 apiVersion: v1
 kind: List
@@ -20,12 +20,15 @@ items:
 
 # --------------------------=== pod 0 ===--------------------------
 
-- apiVersion: extensions/v1beta1
+- apiVersion: apps/v1
   kind: Deployment
   metadata:
     name: pbft-0
   spec:
     replicas: 1
+    selector:
+      matchLabels:
+       name: pbft-0
     template:
       metadata:
         labels:
@@ -33,7 +36,7 @@ items:
       spec:
         containers:
           - name: sawtooth-intkey-tp-python
-            image: hyperledger/sawtooth-intkey-tp-python:nightly
+            image: hyperledger/sawtooth-intkey-tp-python:chime
             command:
               - bash
             args:
@@ -41,7 +44,7 @@ items:
               - "intkey-tp-python -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-pbft-engine
-            image: hyperledger/sawtooth-pbft-engine:nightly
+            image: hyperledger/sawtooth-pbft-engine:chime
             command:
               - bash
             args:
@@ -49,7 +52,7 @@ items:
               - "pbft-engine -vv --connect tcp://$HOSTNAME:5050"
 
           - name: sawtooth-rest-api
-            image: hyperledger/sawtooth-rest-api:nightly
+            image: hyperledger/sawtooth-rest-api:chime
             ports:
               - name: api
                 containerPort: 8008
@@ -66,7 +69,7 @@ items:
               periodSeconds: 10
 
           - name: sawtooth-settings-tp
-            image: hyperledger/sawtooth-settings-tp:nightly
+            image: hyperledger/sawtooth-settings-tp:chime
             command:
               - bash
             args:
@@ -74,7 +77,7 @@ items:
               - "settings-tp -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-shell
-            image: hyperledger/sawtooth-shell:nightly
+            image: hyperledger/sawtooth-shell:chime
             command:
               - bash
             args:
@@ -82,7 +85,7 @@ items:
               - "sawtooth keygen && tail -f /dev/null"
 
           - name: sawtooth-smallbank-tp-rust
-            image: hyperledger/sawtooth-smallbank-tp-rust:nightly
+            image: hyperledger/sawtooth-smallbank-tp-rust:chime
             command:
               - bash
             args:
@@ -90,7 +93,7 @@ items:
               - "smallbank-tp-rust -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-validator
-            image: hyperledger/sawtooth-validator:nightly
+            image: hyperledger/sawtooth-validator:chime
             ports:
               - name: tp
                 containerPort: 4004
@@ -140,7 +143,7 @@ items:
                     --maximum-peer-connectivity 10000
 
           - name: sawtooth-xo-tp-python
-            image: hyperledger/sawtooth-xo-tp-python:nightly
+            image: hyperledger/sawtooth-xo-tp-python:chime
             command:
               - bash
             args:
@@ -180,12 +183,15 @@ items:
 
 # --------------------------=== pod 1 ===--------------------------
 
-- apiVersion: extensions/v1beta1
+- apiVersion: apps/v1
   kind: Deployment
   metadata:
     name: pbft-1
   spec:
     replicas: 1
+    selector:
+      matchLabels:
+       name: pbft-1
     template:
       metadata:
         labels:
@@ -193,7 +199,7 @@ items:
       spec:
         containers:
           - name: sawtooth-intkey-tp-python
-            image: hyperledger/sawtooth-intkey-tp-python:nightly
+            image: hyperledger/sawtooth-intkey-tp-python:chime
             command:
               - bash
             args:
@@ -201,7 +207,7 @@ items:
               - "intkey-tp-python -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-pbft-engine
-            image: hyperledger/sawtooth-pbft-engine:nightly
+            image: hyperledger/sawtooth-pbft-engine:chime
             command:
               - bash
             args:
@@ -209,7 +215,7 @@ items:
               - "pbft-engine -vv --connect tcp://$HOSTNAME:5050"
 
           - name: sawtooth-rest-api
-            image: hyperledger/sawtooth-rest-api:nightly
+            image: hyperledger/sawtooth-rest-api:chime
             ports:
               - name: api
                 containerPort: 8008
@@ -226,7 +232,7 @@ items:
               periodSeconds: 10
 
           - name: sawtooth-settings-tp
-            image: hyperledger/sawtooth-settings-tp:nightly
+            image: hyperledger/sawtooth-settings-tp:chime
             command:
               - bash
             args:
@@ -234,7 +240,7 @@ items:
               - "settings-tp -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-shell
-            image: hyperledger/sawtooth-shell:nightly
+            image: hyperledger/sawtooth-shell:chime
             command:
               - bash
             args:
@@ -242,7 +248,7 @@ items:
               - "sawtooth keygen && tail -f /dev/null"
 
           - name: sawtooth-smallbank-tp-rust
-            image: hyperledger/sawtooth-smallbank-tp-rust:nightly
+            image: hyperledger/sawtooth-smallbank-tp-rust:chime
             command:
               - bash
             args:
@@ -250,7 +256,7 @@ items:
               - "smallbank-tp-rust -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-validator
-            image: hyperledger/sawtooth-validator:nightly
+            image: hyperledger/sawtooth-validator:chime
             ports:
               - name: tp
                 containerPort: 4004
@@ -290,7 +296,7 @@ items:
                     --peers tcp://$SAWTOOTH_0_SERVICE_HOST:8800
 
           - name: sawtooth-xo-tp-python
-            image: hyperledger/sawtooth-xo-tp-python:nightly
+            image: hyperledger/sawtooth-xo-tp-python:chime
             command:
               - bash
             args:
@@ -329,12 +335,15 @@ items:
 
 # --------------------------=== pod 2 ===--------------------------
 
-- apiVersion: extensions/v1beta1
+- apiVersion: apps/v1
   kind: Deployment
   metadata:
     name: pbft-2
   spec:
     replicas: 1
+    selector:
+      matchLabels:
+       name: pbft-2
     template:
       metadata:
         labels:
@@ -342,7 +351,7 @@ items:
       spec:
         containers:
           - name: sawtooth-intkey-tp-python
-            image: hyperledger/sawtooth-intkey-tp-python:nightly
+            image: hyperledger/sawtooth-intkey-tp-python:chime
             command:
               - bash
             args:
@@ -350,7 +359,7 @@ items:
               - "intkey-tp-python -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-pbft-engine
-            image: hyperledger/sawtooth-pbft-engine:nightly
+            image: hyperledger/sawtooth-pbft-engine:chime
             command:
               - bash
             args:
@@ -358,7 +367,7 @@ items:
               - "pbft-engine -vv --connect tcp://$HOSTNAME:5050"
 
           - name: sawtooth-rest-api
-            image: hyperledger/sawtooth-rest-api:nightly
+            image: hyperledger/sawtooth-rest-api:chime
             ports:
               - name: api
                 containerPort: 8008
@@ -375,7 +384,7 @@ items:
               periodSeconds: 10
 
           - name: sawtooth-settings-tp
-            image: hyperledger/sawtooth-settings-tp:nightly
+            image: hyperledger/sawtooth-settings-tp:chime
             command:
               - bash
             args:
@@ -383,7 +392,7 @@ items:
               - "settings-tp -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-shell
-            image: hyperledger/sawtooth-shell:nightly
+            image: hyperledger/sawtooth-shell:chime
             command:
               - bash
             args:
@@ -391,7 +400,7 @@ items:
               - "sawtooth keygen && tail -f /dev/null"
 
           - name: sawtooth-smallbank-tp-rust
-            image: hyperledger/sawtooth-smallbank-tp-rust:nightly
+            image: hyperledger/sawtooth-smallbank-tp-rust:chime
             command:
               - bash
             args:
@@ -399,7 +408,7 @@ items:
               - "smallbank-tp-rust -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-validator
-            image: hyperledger/sawtooth-validator:nightly
+            image: hyperledger/sawtooth-validator:chime
             ports:
               - name: tp
                 containerPort: 4004
@@ -440,7 +449,7 @@ items:
                     --peers tcp://$SAWTOOTH_1_SERVICE_HOST:8800
 
           - name: sawtooth-xo-tp-python
-            image: hyperledger/sawtooth-xo-tp-python:nightly
+            image: hyperledger/sawtooth-xo-tp-python:chime
             command:
               - bash
             args:
@@ -480,12 +489,15 @@ items:
 
 # --------------------------=== pod 3 ===--------------------------
 
-- apiVersion: extensions/v1beta1
+- apiVersion: apps/v1
   kind: Deployment
   metadata:
     name: pbft-3
   spec:
     replicas: 1
+    selector:
+      matchLabels:
+       name: pbft-3
     template:
       metadata:
         labels:
@@ -493,7 +505,7 @@ items:
       spec:
         containers:
           - name: sawtooth-intkey-tp-python
-            image: hyperledger/sawtooth-intkey-tp-python:nightly
+            image: hyperledger/sawtooth-intkey-tp-python:chime
             command:
               - bash
             args:
@@ -501,7 +513,7 @@ items:
               - "intkey-tp-python -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-pbft-engine
-            image: hyperledger/sawtooth-pbft-engine:nightly
+            image: hyperledger/sawtooth-pbft-engine:chime
             command:
               - bash
             args:
@@ -509,7 +521,7 @@ items:
               - "pbft-engine -vv --connect tcp://$HOSTNAME:5050"
 
           - name: sawtooth-rest-api
-            image: hyperledger/sawtooth-rest-api:nightly
+            image: hyperledger/sawtooth-rest-api:chime
             ports:
               - name: api
                 containerPort: 8008
@@ -526,7 +538,7 @@ items:
               periodSeconds: 10
 
           - name: sawtooth-settings-tp
-            image: hyperledger/sawtooth-settings-tp:nightly
+            image: hyperledger/sawtooth-settings-tp:chime
             command:
               - bash
             args:
@@ -534,7 +546,7 @@ items:
               - "settings-tp -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-shell
-            image: hyperledger/sawtooth-shell:nightly
+            image: hyperledger/sawtooth-shell:chime
             command:
               - bash
             args:
@@ -542,7 +554,7 @@ items:
               - "sawtooth keygen && tail -f /dev/null"
 
           - name: sawtooth-smallbank-tp-rust
-            image: hyperledger/sawtooth-smallbank-tp-rust:nightly
+            image: hyperledger/sawtooth-smallbank-tp-rust:chime
             command:
               - bash
             args:
@@ -550,7 +562,7 @@ items:
               - "smallbank-tp-rust -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-validator
-            image: hyperledger/sawtooth-validator:nightly
+            image: hyperledger/sawtooth-validator:chime
             ports:
               - name: tp
                 containerPort: 4004
@@ -592,7 +604,7 @@ items:
                     --peers tcp://$SAWTOOTH_2_SERVICE_HOST:8800
 
           - name: sawtooth-xo-tp-python
-            image: hyperledger/sawtooth-xo-tp-python:nightly
+            image: hyperledger/sawtooth-xo-tp-python:chime
             command:
               - bash
             args:
@@ -632,12 +644,15 @@ items:
 
 # --------------------------=== pod 4 ===--------------------------
 
-- apiVersion: extensions/v1beta1
+- apiVersion: apps/v1
   kind: Deployment
   metadata:
     name: pbft-4
   spec:
     replicas: 1
+    selector:
+      matchLabels:
+       name: pbft-4
     template:
       metadata:
         labels:
@@ -645,7 +660,7 @@ items:
       spec:
         containers:
           - name: sawtooth-intkey-tp-python
-            image: hyperledger/sawtooth-intkey-tp-python:nightly
+            image: hyperledger/sawtooth-intkey-tp-python:chime
             command:
               - bash
             args:
@@ -653,7 +668,7 @@ items:
               - "intkey-tp-python -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-pbft-engine
-            image: hyperledger/sawtooth-pbft-engine:nightly
+            image: hyperledger/sawtooth-pbft-engine:chime
             command:
               - bash
             args:
@@ -661,7 +676,7 @@ items:
               - "pbft-engine -vv --connect tcp://$HOSTNAME:5050"
 
           - name: sawtooth-rest-api
-            image: hyperledger/sawtooth-rest-api:nightly
+            image: hyperledger/sawtooth-rest-api:chime
             ports:
               - name: api
                 containerPort: 8008
@@ -678,7 +693,7 @@ items:
               periodSeconds: 10
 
           - name: sawtooth-settings-tp
-            image: hyperledger/sawtooth-settings-tp:nightly
+            image: hyperledger/sawtooth-settings-tp:chime
             command:
               - bash
             args:
@@ -686,7 +701,7 @@ items:
               - "settings-tp -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-shell
-            image: hyperledger/sawtooth-shell:nightly
+            image: hyperledger/sawtooth-shell:chime
             command:
               - bash
             args:
@@ -694,7 +709,7 @@ items:
               - "sawtooth keygen && tail -f /dev/null"
 
           - name: sawtooth-smallbank-tp-rust
-            image: hyperledger/sawtooth-smallbank-tp-rust:nightly
+            image: hyperledger/sawtooth-smallbank-tp-rust:chime
             command:
               - bash
             args:
@@ -702,7 +717,7 @@ items:
               - "smallbank-tp-rust -vv -C tcp://$HOSTNAME:4004"
 
           - name: sawtooth-validator
-            image: hyperledger/sawtooth-validator:nightly
+            image: hyperledger/sawtooth-validator:chime
             ports:
               - name: tp
                 containerPort: 4004
@@ -745,7 +760,7 @@ items:
                     --peers tcp://$SAWTOOTH_3_SERVICE_HOST:8800
 
           - name: sawtooth-xo-tp-python
-            image: hyperledger/sawtooth-xo-tp-python:nightly
+            image: hyperledger/sawtooth-xo-tp-python:chime
             command:
               - bash
             args:
